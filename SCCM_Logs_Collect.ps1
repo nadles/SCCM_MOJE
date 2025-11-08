@@ -1,20 +1,25 @@
+<# 
+.SYNOPSIS
+  Zbiera logi SCCM, WSUS, SUP, DP, MP oraz IIS z lokalnego serwera
+  (uwzględniając dyski C–H) i kopiuje je do C:\Temp\SCCM_Logs_APN\<Logs_YYYYMMDD_HHmmss>.
+#>
+
 # --- Ustawienia główne ---
 $BaseFolder = "C:\Temp\SCCM_Logs_APN"
 $DateStamp  = Get-Date -Format "yyyyMMdd_HHmmss"
 $DestFolder = Join-Path $BaseFolder "Logs_$DateStamp"
 
-# --- Upewnij się, że folder bazowy istnieje ---
+# --- Sprawdź czy folder bazowy istnieje, jeśli nie to utwórz ---
 if (-not (Test-Path $BaseFolder)) {
-    Write-Host ("📁 Tworzę folder bazowy: {0}" -f $BaseFolder) -ForegroundColor Cyan
+    Write-Host ("📁 Folder bazowy {0} nie istnieje — tworzę..." -f $BaseFolder) -ForegroundColor Cyan
     New-Item -ItemType Directory -Path $BaseFolder -Force | Out-Null
+} else {
+    Write-Host ("📂 Wykryto istniejący folder bazowy: {0}" -f $BaseFolder) -ForegroundColor Cyan
 }
 
-# --- Tworzenie folderu docelowego ---
-if (-not (Test-Path $DestFolder)) {
-    New-Item -ItemType Directory -Path $DestFolder -Force | Out-Null
-}
-
-Write-Host ("📂 Folder docelowy: {0}" -f $DestFolder) -ForegroundColor Cyan
+# --- Tworzenie podfolderu z datą ---
+Write-Host ("🕒 Tworzę nowy podfolder dla bieżącej sesji: {0}" -f $DestFolder) -ForegroundColor Cyan
+New-Item -ItemType Directory -Path $DestFolder -Force | Out-Null
 
 # --- Partycje do sprawdzenia ---
 $Drives = "C","D","E","F","G","H"
@@ -44,7 +49,7 @@ if ($ExistingPaths.Count -eq 0) {
     Write-Warning "⚠️  Nie znaleziono żadnych folderów z logami SCCM lub IIS na dyskach C–H."
     exit 0
 } else {
-    Write-Host ("🔍 Znaleziono {0} lokalizacji z logami:`n" -f $ExistingPaths.Count) -ForegroundColor Green
+    Write-Host ("🔍 Znaleziono {0} lokalizacji z logami:" -f $ExistingPaths.Count) -ForegroundColor Green
     $ExistingPaths | ForEach-Object { Write-Host (" - {0}" -f $_) -ForegroundColor DarkGray }
 }
 
