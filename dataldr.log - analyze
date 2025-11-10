@@ -8,7 +8,7 @@ if (!(Test-Path $TempFolder)) { New-Item -ItemType Directory -Path $TempFolder |
 Get-ChildItem -Path $TempFolder -File | Remove-Item -Force -ErrorAction SilentlyContinue
 
 # Zbierz wszystkie pliki dataldr.log*
-$srcLogs = Get-ChildItem -Path $LogFolder -Filter "dataldr.log*" -File | Sort-Object LastWriteTime
+$srcLogs = Get-ChildItem -Path $LogFolder -Filter "dataldr*" -File | Sort-Object LastWriteTime
 Write-Host ("🔍 Znaleziono {0} plik(ów) logów do przetworzenia..." -f $srcLogs.Count)
 
 foreach ($lf in $srcLogs) {
