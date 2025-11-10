@@ -1,7 +1,8 @@
-<# 
+<#
 .SYNOPSIS
   Zbiera logi SCCM, WSUS, SUP, DP, MP oraz IIS z lokalnego serwera
   (uwzględniając dyski C–H) i kopiuje je do C:\Temp\SCCM_Logs_APN\<Logs_YYYYMMDD_HHmmss>.
+  Zachowuje strukturę folderów IIS (W3SVC1, W3SVC2 itd.).
 #>
 
 # --- Ustawienia główne ---
@@ -64,8 +65,23 @@ foreach ($path in $ExistingPaths) {
         Write-Host ("`n➡️  Kopiowanie logów z: {0}" -f $path) -ForegroundColor Yellow
         New-Item -ItemType Directory -Path $destComponentFolder -Force | Out-Null
 
+        # --- Główna zmiana: zachowanie struktury podfolderów ---
         Get-ChildItem -Path $path -Recurse -Include $patterns -File -ErrorAction SilentlyContinue |
-            Copy-Item -Destination $destComponentFolder -Force -ErrorAction Stop
+            ForEach-Object {
+                # oblicz względną ścieżkę względem folderu źródłowego
+                $relativePath = $_.DirectoryName.Substring($path.Length).TrimStart('\')
+                $destSubDir = if ($relativePath) {
+                    Join-Path $destComponentFolder $relativePath
+                } else {
+                    $destComponentFolder
+                }
+
+                # utwórz docelowy podfolder, jeśli nie istnieje
+                New-Item -ItemType Directory -Path $destSubDir -Force | Out-Null
+
+                # skopiuj plik
+                Copy-Item $_.FullName -Destination $destSubDir -Force
+            }
 
     } catch {
         $msg = if ($_.Exception) { $_.Exception.Message } else { $_.ToString() }
