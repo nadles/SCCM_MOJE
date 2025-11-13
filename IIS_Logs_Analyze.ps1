@@ -1,22 +1,4 @@
 
-<#
-.SYNOPSIS
-  Analiza logów IIS: parsuje logi, liczy statystyki requestów (w tym time-taken),
-  eksportuje CSV i generuje raport HTML z zestawieniem dziennym.
-
-.PARAMETER LogPath
-  Ścieżka do logów IIS (np. C:\inetpub\logs\LogFiles).
-
-.PARAMETER SinceDays
-  Ile dni wstecz analizować (0 = cała historia).
-
-.PARAMETER OutputCsv
-  Ścieżka do surowego CSV (np. C:\Temp\IIS_Analysis\iis_parsed.csv).
-
-.PARAMETER HtmlReportPath
-  Ścieżka do raportu HTML (np. C:\Temp\IIS_Analysis\iis_report.html).
-#>
-
 param(
     [string]$LogPath = "C:\inetpub\logs\LogFiles",
     [int]$SinceDays = 7,
