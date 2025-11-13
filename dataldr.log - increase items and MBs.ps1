@@ -1,36 +1,30 @@
 # === KONFIGURACJA ===
-$ServiceName = "SMS_EXECUTIVE"
-$RegPath = "HKLM:\SOFTWARE\Microsoft\SMS\Tracing\SMS_INVENTORY_DATA_LOADER"
-$MaxFileSizeMB = 10    # rozmiar jednego pliku logu
-$MaxLogFiles = 14      # liczba rotacji (np. tydzień historii)
+$Component = "SMS_INVENTORY_DATA_LOADER"
+$BaseRegPath = "HKLM:\SOFTWARE\Microsoft\SMS\Components\SMS_Executive"
+$RegPath = "$BaseRegPath\$Component\Logging"
 
-Write-Host "🔧 Ustawianie zwiększonej retencji logów dla SMS_INVENTORY_DATA_LOADER..." -ForegroundColor Cyan
+$MaxFileSizeMB = 10
+$MaxLogFiles = 14
 
-# === Upewnij się, że klucz istnieje ===
+Write-Host "🔧 Ustawianie rotacji logów dla $Component..." -ForegroundColor Cyan
+
+# Utwórz brakujący klucz
 if (-not (Test-Path $RegPath)) {
-    Write-Host "📁 Tworzenie brakującego klucza rejestru..." -ForegroundColor Yellow
+    Write-Host "📁 Tworzenie klucza rejestru $RegPath..." -ForegroundColor Yellow
     New-Item -Path $RegPath -Force | Out-Null
 }
 
-# === Ustaw wartości w rejestrze ===
-New-ItemProperty -Path $RegPath -Name "MaxFileSize" -Value ($MaxFileSizeMB * 1MB) -PropertyType DWord -Force | Out-Null
-New-ItemProperty -Path $RegPath -Name "MaxLogFiles" -Value $MaxLogFiles -PropertyType DWord -Force | Out-Null
+# Ustaw prawidłowe klucze rotacji
+New-ItemProperty -Path $RegPath -Name "LogMaxSize" -Value ($MaxFileSizeMB * 1MB) -PropertyType DWord -Force | Out-Null
+New-ItemProperty -Path $RegPath -Name "LogMaxHistory" -Value $MaxLogFiles -PropertyType DWord -Force | Out-Null
 
-Write-Host "✅ Ustawiono:" -ForegroundColor Green
-Write-Host "   MaxFileSize = $($MaxFileSizeMB * 1MB) bajtów ($MaxFileSizeMB MB)"
-Write-Host "   MaxLogFiles = $MaxLogFiles"
+Write-Host "✅ Ustawiono rotację:" -ForegroundColor Green
+Write-Host "   LogMaxSize = $($MaxFileSizeMB * 1MB) bajtów"
+Write-Host "   LogMaxHistory = $MaxLogFiles"
 
-# === Restart usługi SMS_EXECUTIVE ===
-Write-Host "🔄 Restartowanie usługi $ServiceName ..." -ForegroundColor Yellow
-try {
-    Restart-Service -Name $ServiceName -Force -ErrorAction Stop
-    Write-Host "✅ Usługa SMS_EXECUTIVE zrestartowana pomyślnie." -ForegroundColor Green
-} catch {
-    Write-Warning "⚠️ Nie udało się zrestartować usługi $ServiceName. Uruchom ręcznie w Services.msc."
-}
+Write-Host "🔄 Restartowanie SMS_EXECUTIVE..."
+Restart-Service SMS_EXECUTIVE -Force
 
-# === Weryfikacja ustawień ===
-Write-Host "`n🔍 Bieżące wartości rejestru:" -ForegroundColor Cyan
-Get-ItemProperty -Path $RegPath | Select-Object MaxFileSize, MaxLogFiles | Format-List
-
-Write-Host "`n📄 Po restarcie serwisu MECM zacznie tworzyć do $MaxLogFiles rotacji logów (~$MaxLogFiles × $MaxFileSizeMB MB = $(($MaxFileSizeMB * $MaxLogFiles)) MB historii)."
+Write-Host "📄 Po restarcie komponent zacznie tworzyć:"
+Write-Host "   → $MaxLogFiles plików rotacyjnych"
+Write-Host "   → każdy do $MaxFileSizeMB MB"
