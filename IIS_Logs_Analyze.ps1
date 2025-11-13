@@ -1,9 +1,9 @@
 
 param(
-    [string]$LogPath = "C:\inetpub\logs\LogFiles",
+    [string]$LogPath = "C:\Temp\SCCM_Logs_APN",
     [int]$SinceDays = 7,
-    [string]$OutputCsv = "C:\Temp\IIS_Analysis\iis_parsed.csv",
-    [string]$HtmlReportPath = "C:\Temp\IIS_Analysis\iis_report.html",
+    [string]$OutputCsv = "C:\Temp\C:\Temp\SCCM_Logs_APN\IIS_Analysis\iis_parsed.csv",
+    [string]$HtmlReportPath = "C:\Temp\C:\Temp\SCCM_Logs_APN\IIS_Analysis\iis_report.html",
     [int]$TopN = 25
 )
 
