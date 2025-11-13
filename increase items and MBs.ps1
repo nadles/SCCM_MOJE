@@ -1,8 +1,3 @@
-# ============================================
-#   UNIWERSALNA KONFIGURACJA ROTACJI LOGÓW
-#   RÓŻNE USTAWIENIA PER KOMPONENT
-# ============================================
-
 Write-Host "🔧 Konfigurowanie rotacji logów..." -ForegroundColor Cyan
 
 # 🔵 1) KONFIGURACJA DLA SMS_INVENTORY_DATA_LOADER (dataldr.log)
