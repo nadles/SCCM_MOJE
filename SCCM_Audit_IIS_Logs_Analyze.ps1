@@ -72,7 +72,6 @@ foreach ($f in $logFiles) {
     $raw = $matches['flds'].Trim()
     $header = $raw -split '\s+'
     $header = $header | ForEach-Object { Normalize-FieldName $_ }
-    Write-Host "DEBUG: Złapano nagłówek pól w $($f.Name): $($header -join ', ')" -ForegroundColor DarkGray
 }
 
                 continue
@@ -124,10 +123,6 @@ function FindFieldExact($fields, $candidates) {
 
 $uriF = FindFieldExact $fields @('cs-uri-stem','cs_uri_stem','cs_uri','uri_stem','uri-stem')
 $ttF  = FindFieldExact $fields @('time-taken','time_taken','timetaken','sc-time-taken','sc_time_taken')
-Write-Host "DEBUG: Wykryte pola:" -ForegroundColor Cyan
-Write-Host "  URI Field: $uriF"
-Write-Host "  TimeTaken Field: $ttF"
-Write-Host "  Wszystkie pola: $($fields -join ', ')"
 
 # --- Uzupełnij dane ---
 $enriched = foreach ($r in $all) {
