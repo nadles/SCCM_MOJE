@@ -1,7 +1,7 @@
 # === Konfiguracja ===
 $LogFolder  = "D:\Program Files\Microsoft Configuration Manager\Logs"
-$TempFolder = "C:\Temp\SCCM_Logs_Extracted"
-$OutputCsv  = "C:\Temp\HWInventory_Full_Report.csv"
+$TempFolder = "C:\Temp\SCCM_Logs_APN\SCCM_HWInventory"
+$OutputCsv  = "C:\Temp\SCCM_Logs_APN\SCCM_HWInventory\HWInventory_Full_Report.csv"
 
 # === Przygotowanie ===
 if (!(Test-Path $TempFolder)) { New-Item -ItemType Directory -Path $TempFolder | Out-Null }
