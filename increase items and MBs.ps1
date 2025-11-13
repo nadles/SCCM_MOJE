@@ -34,14 +34,14 @@ $Components = @(
     @{
         Name = "SMS_DISTRIBUTION_MANAGER"
         LogName = "distmgr.log"
-        MaxSizeMB = 5
-        MaxHistory = 20
+        MaxSizeMB = 100
+        MaxHistory = 5
     },
     @{
         Name = "SMS_PACKAGE_TRANSFER_MANAGER"
         LogName = "pkgxfermgr.log"
-        MaxSizeMB = 3
-        MaxHistory = 10
+        MaxSizeMB = 100
+        MaxHistory = 5
     }
 )
 
