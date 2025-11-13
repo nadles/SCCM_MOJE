@@ -10,20 +10,20 @@ $Components = @(
     @{
         Name = "SMS_INVENTORY_DATA_LOADER"
         LogName = "dataldr.log"
-        MaxSizeMB = 1      # 1 MB
+        MaxSizeMB = 40      # 1 MB
         MaxHistory = 14
     },
     @{
         Name = "SMS_DISTRIBUTION_MANAGER"
         LogName = "distmgr.log"
-        MaxSizeMB = 5      # 5 MB
-        MaxHistory = 20
+        MaxSizeMB = 40      # 5 MB
+        MaxHistory = 14
     },
     @{
         Name = "SMS_PACKAGE_TRANSFER_MANAGER"
         LogName = "pkgxfermgr.log"
-        MaxSizeMB = 3      # 3 MB
-        MaxHistory = 10
+        MaxSizeMB = 40      # 3 MB
+        MaxHistory = 14
     }
 )
 
