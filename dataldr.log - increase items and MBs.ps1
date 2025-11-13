@@ -4,7 +4,7 @@ $RegPath = "HKLM:\SOFTWARE\Microsoft\SMS\Components\SMS_Executive\$Component\Log
 $MaxFileSizeMB = 1   # tu ustawiasz MB
 $MaxLogFiles = 14
 
-$MaxFileSizeKB = $MaxFileSizeMB * 1024   # <-- KLUCZOWA ZMIANA
+$MaxFileSizeKB = $MaxFileSizeMB * 1024
 
 Write-Host "🔧 Ustawiam rotację logów ($MaxFileSizeMB MB, $MaxLogFiles plików)..."
 
