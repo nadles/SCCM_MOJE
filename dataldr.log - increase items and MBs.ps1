@@ -1,11 +1,3 @@
-# ============================================
-#   UNIWERSALNA KONFIGURACJA ROTACJI LOGÓW
-#   RÓŻNE USTAWIENIA PER KOMPONENT
-# ============================================
-
-# !!! WAŻNE !!!
-# LogMaxSize musi być podany w KB, nie bajtach!
-
 $Components = @(
     @{
         Name = "SMS_INVENTORY_DATA_LOADER"
