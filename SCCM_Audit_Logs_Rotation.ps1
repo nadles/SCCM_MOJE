@@ -6,11 +6,10 @@ $DL_ComponentName = "SMS_INVENTORY_DATA_LOADER"
 $DL_RegPath = "HKLM:\SOFTWARE\Microsoft\SMS\Tracing\$DL_ComponentName"
 
 $DL_MaxSizeMB = 500
-$DL_MaxSizeBytes = $DL_MaxSizeMB * 1MB   # DataLoader używa BAJTÓW!
+$DL_MaxSizeBytes = $DL_MaxSizeMB * 1MB  
 
 Write-Host "`n📌 Konfiguracja: $DL_ComponentName (dataldr.log)" -ForegroundColor Yellow
 Write-Host "    → MaxFileSize = $DL_MaxSizeBytes bajtów (~$DL_MaxSizeMB MB)"
-Write-Host "    → LogMaxHistory = tylko 1 (plik .lo_) — tryb domyślny"
 
 if (-not (Test-Path $DL_RegPath)) {
     Write-Host "📁 Tworzę klucz rejestru: $DL_RegPath"
