@@ -1,10 +1,3 @@
-<#
-.SYNOPSIS
-  Zbiera logi SCCM, WSUS, SUP, DP, MP oraz IIS z lokalnego serwera
-  (uwzględniając dyski C–H) i kopiuje je do C:\Temp\SCCM_Logs_APN\<Logs_YYYYMMDD_HHmmss>.
-  Zachowuje strukturę folderów IIS (W3SVC1, W3SVC2 itd.).
-#>
-
 # --- Ustawienia główne ---
 $BaseFolder = "C:\Temp\SCCM_Logs_APN"
 $DateStamp  = Get-Date -Format "yyyyMMdd_HHmmss"
