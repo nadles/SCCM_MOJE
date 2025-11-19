@@ -1,1 +1,23 @@
-SELECT#(lf)    SYS.Name0 AS ComputerName,#(lf)    SYS.ResourceID,CIR.fromCIID,#(lf)    UI.Title AS UpdateTitle,#(lf)    CASE UCS.Status#(lf)        WHEN 2 THEN 'Missing'#(lf)        WHEN 3 THEN 'Installed'#(lf)        ELSE 'Other' -- You can add more cases or modify this default#(lf)    END AS UpdateStatus,#(lf)    UCS.LastStatusCheckTime AS LastStatusCheckTime#(lf)FROM#(lf)    v_R_System SYS#(lf)JOIN#(lf)    v_FullCollectionMembership FCM ON SYS.ResourceID = FCM.ResourceID#(lf)JOIN#(lf)    v_UpdateComplianceStatus UCS ON SYS.ResourceID = UCS.ResourceID#(lf)JOIN#(lf)    v_CIRelation CIR ON UCS.CI_ID = CIR.TOCIID#(lf)JOIN#(lf)    v_UpdateInfo UI ON CIR.TOCIID = UI.CI_ID#(lf)WHERE#(lf)    FCM.CollectionID = 'GDC034E4'#(lf)    AND CIR.RelationType = 1 #(lf)
+SELECT   
+  SYS.Name0 AS ComputerName,
+  SYS.ResourceID,CIR.fromCIID,
+  UI.Title AS UpdateTitle,
+  CASE UCS.Status
+  WHEN 2 THEN 'Missing'
+  WHEN 3 THEN 'Installed'
+  ELSE 'Other'
+  END AS UpdateStatus,
+  UCS.LastStatusCheckTime AS LastStatusCheckTime
+  FROM
+  v_R_System SYS
+  JOIN
+  v_FullCollectionMembership FCM ON SYS.ResourceID = FCM.ResourceID
+  JOIN
+  v_UpdateComplianceStatus UCS ON SYS.ResourceID = UCS.ResourceID
+  JOIN
+  v_CIRelation CIR ON UCS.CI_ID = CIR.TOCIID
+  JOIN
+  v_UpdateInfo UI ON CIR.TOCIID = UI.CI_ID
+  WHERE
+  FCM.CollectionID = 'ID_KOLEKCJI'
+  AND CIR.RelationType = 1
