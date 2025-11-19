@@ -1,6 +1,6 @@
 Write-Host "Konfigurowanie rotacji logów..." -ForegroundColor Cyan
-#BACKUP CONFIG#
-#BACKUP CONFIG#
+# (1) KONFIGURACJA BACKUPU
+# --------------------------------------------------------------
 $BackupFolder = "C:\Temp\SCCM_Logs_APN"
 if (-not (Test-Path $BackupFolder)) {
     New-Item -ItemType Directory -Path $BackupFolder -Force | Out-Null
@@ -34,11 +34,9 @@ function Backup-RegistryKey {
     }
 }
 New-Item -ItemType File -Path $BackupPath -Force | Out-Null
-#BACKUP CONFIG#
-#BACKUP CONFIG#
 
 
-# (1) KONFIGURACJA DLA SMS_INVENTORY_DATA_LOADER
+# (2) KONFIGURACJA DLA SMS_INVENTORY_DATA_LOADER
 # --------------------------------------------------------------
 
 $DL_ComponentName = "SMS_INVENTORY_DATA_LOADER"
@@ -62,7 +60,7 @@ New-ItemProperty -Path $DL_RegPath -Name "MaxFileSize" -Value $DL_MaxSizeBytes -
 Write-Host "Ustawiono MaxFileSize dla dataldr.log"
 
 
-# (2) KONFIGURACJA POZOSTAŁYCH KOMPONENTÓW
+# (3) KONFIGURACJA POZOSTAŁYCH KOMPONENTÓW
 # --------------------------------------------------------------
 
 $Components = @(
